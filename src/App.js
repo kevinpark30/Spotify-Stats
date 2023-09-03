@@ -10,34 +10,42 @@ import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [token, setToken] = useState("");
+    const [token, setToken] = useState("");
 
-  return (
-    <>
-      <BrowserRouter>
-        <Navbar setTokenParent={setToken}></Navbar>
-        <Routes>
-          <Route path="/" element={<HomePage></HomePage>}></Route>
-          <Route
-            path="/top-tracks"
-            element={<TopTracksPage token={token}></TopTracksPage>}
-          ></Route>
-          <Route
-            path="/top-artists"
-            element={<TopArtistsPage token={token}></TopArtistsPage>}
-          ></Route>
-          <Route
-            path="/recently-played"
-            element={<RecentlyPlayedPage token={token}></RecentlyPlayedPage>}
-          ></Route>
-          <Route
-            path="/recommended"
-            element={<RecommendedPage token={token}></RecommendedPage>}
-          ></Route>
-        </Routes>
-      </BrowserRouter>
-    </>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Navbar setTokenParent={setToken}></Navbar>
+                <Routes>
+                    <Route path="/" element={<HomePage></HomePage>}></Route>
+                    <Route
+                        path="/top-tracks"
+                        element={<TopTracksPage token={token}></TopTracksPage>}
+                    ></Route>
+                    <Route
+                        path="/top-artists"
+                        element={
+                            <TopArtistsPage token={token}></TopArtistsPage>
+                        }
+                    ></Route>
+                    <Route
+                        path="/recently-played"
+                        element={
+                            <RecentlyPlayedPage
+                                token={token}
+                            ></RecentlyPlayedPage>
+                        }
+                    ></Route>
+                    <Route
+                        path="/recommended"
+                        element={
+                            <RecommendedPage token={token}></RecommendedPage>
+                        }
+                    ></Route>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;
