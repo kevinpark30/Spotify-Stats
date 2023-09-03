@@ -1,13 +1,11 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
 
 function HomePage() {
-    return (
-        <div>
-            <Navbar></Navbar>
-            <div>This is Home Page</div>
-        </div>
-    )
+  return (
+    <div>
+      <div>This is Home Page</div>
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;

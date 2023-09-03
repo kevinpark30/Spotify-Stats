@@ -1,13 +1,11 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
 
-function RecommendedPage() {
-    return (
-        <div>
-            <Navbar></Navbar>
-            <div>This is Recommended Page</div>
-        </div>
-    )
+function RecommendedPage({ token }) {
+  return (
+    <div>
+      <div>This is Recommended Page</div>
+    </div>
+  );
 }
 
-export default RecommendedPage
+export default RecommendedPage;

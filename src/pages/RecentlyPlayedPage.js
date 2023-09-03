@@ -1,13 +1,11 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
 
-function RecentlyPlayedPage() {
-    return (
-        <div>
-            <Navbar></Navbar>
-            <div>This is Recently Played Page</div>
-        </div>
-    )
+function RecentlyPlayedPage({ token }) {
+  return (
+    <div>
+      <div>This is Recently Played Page</div>
+    </div>
+  );
 }
 
-export default RecentlyPlayedPage
+export default RecentlyPlayedPage;
