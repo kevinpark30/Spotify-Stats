@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import TrackItem from "../components/TrackItem";
+import "./TopTracksPage.css";
 
 function TopTracksPage({ token }) {
     const [tracksInfo, setTracksInfo] = useState([]);
@@ -32,7 +33,7 @@ function TopTracksPage({ token }) {
                     trackInfo.push(items[i].name);
                     trackInfo.push(items[i].artists.map((obj) => obj.name));
                     trackInfo.push(items[i].album.images[2].url);
-                    trackInfo.push(i);
+                    trackInfo.push(i + 1);
                     tracksInfo.push(trackInfo);
                 }
                 setTracksInfo(tracksInfo);
@@ -42,16 +43,18 @@ function TopTracksPage({ token }) {
     }, [token]);
 
     return (
-        <div>
-            <div>This is Top Tracks Page</div>
-            {tracksInfo.map((trackInfo) => (
-                <TrackItem
-                    trackTitle={trackInfo[0]}
-                    trackArtist={trackInfo[1]}
-                    trackImage={trackInfo[2]}
-                    key={trackInfo[3]}
-                ></TrackItem>
-            ))}
+        <div className="top-tracks-container">
+            {!token && <div>Log in to view your top tracks</div>}
+            {token &&
+                tracksInfo.map((trackInfo) => (
+                    <TrackItem
+                        trackRank={trackInfo[3]}
+                        trackImage={trackInfo[2]}
+                        trackTitle={trackInfo[0]}
+                        trackArtist={trackInfo[1]}
+                        key={trackInfo[3]}
+                    ></TrackItem>
+                ))}
         </div>
     );
 }
