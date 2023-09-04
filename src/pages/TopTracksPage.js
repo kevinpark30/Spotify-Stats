@@ -30,10 +30,12 @@ function TopTracksPage({ token }) {
 
                 for (let i = 0; i < items.length; i++) {
                     const trackInfo = [];
+                    trackInfo.push(i + 1);
+                    trackInfo.push(items[i].album.images[2].url);
+                    trackInfo.push(items[i].album.external_urls.spotify);
                     trackInfo.push(items[i].name);
                     trackInfo.push(items[i].artists.map((obj) => obj.name));
-                    trackInfo.push(items[i].album.images[2].url);
-                    trackInfo.push(i + 1);
+                    trackInfo.push(items[i].external_urls.spotify);
                     tracksInfo.push(trackInfo);
                 }
                 setTracksInfo(tracksInfo);
@@ -48,11 +50,13 @@ function TopTracksPage({ token }) {
             {token &&
                 tracksInfo.map((trackInfo) => (
                     <TrackItem
-                        trackRank={trackInfo[3]}
-                        trackImage={trackInfo[2]}
-                        trackTitle={trackInfo[0]}
-                        trackArtist={trackInfo[1]}
-                        key={trackInfo[3]}
+                        trackRank={trackInfo[0]}
+                        trackImage={trackInfo[1]}
+                        trackAlbumURL={trackInfo[2]}
+                        trackTitle={trackInfo[3]}
+                        trackArtist={trackInfo[4]}
+                        trackURL={trackInfo[5]}
+                        key={trackInfo[0]}
                     ></TrackItem>
                 ))}
         </div>
