@@ -5,10 +5,15 @@ import TrackItem from "../components/TrackItem";
 import "./TopTracksPage.css";
 
 function TopTracksPage({ token }) {
+    const [shortTermTracksInfo, setShortTermTracksInfo] = useState([]);
+    const [mediumTermTracksInfo, setMediumTermTracksInfo] = useState([]);
+    const [longTermTracksInfo, setLongTermTracksInfo] = useState([]);
     const [tracksInfo, setTracksInfo] = useState([]);
 
+    const [timeWindow, setTimeWindow] = useState("short_term");
+
     useEffect(() => {
-        async function searchTopTracks() {
+        async function searchTopTracks(term) {
             if (token) {
                 const { data } = await axios.get(
                     "https://api.spotify.com/v1/me/top/tracks",
@@ -17,16 +22,14 @@ function TopTracksPage({ token }) {
                             Authorization: `Bearer ${token}`,
                         },
                         params: {
-                            time_range: "medium_term",
+                            time_range: term,
                             limit: 50,
-                            offset: 5,
+                            offset: 0,
                         },
                     }
                 );
                 const items = data.items;
                 const tracksInfo = [];
-
-                console.log(data.items);
 
                 for (let i = 0; i < items.length; i++) {
                     const trackInfo = [];
@@ -38,15 +41,76 @@ function TopTracksPage({ token }) {
                     trackInfo.push(items[i].external_urls.spotify);
                     tracksInfo.push(trackInfo);
                 }
-                setTracksInfo(tracksInfo);
+
+                if (term == "short_term") {
+                    setShortTermTracksInfo(tracksInfo);
+                } else if (term == "medium_term") {
+                    setMediumTermTracksInfo(tracksInfo);
+                } else if (term == "long_term") {
+                    setLongTermTracksInfo(tracksInfo);
+                }
             }
         }
-        searchTopTracks();
+        searchTopTracks("short_term");
+        searchTopTracks("medium_term");
+        searchTopTracks("long_term");
     }, [token]);
+
+    useEffect(() => {
+        if (timeWindow == "short_term") {
+            setTracksInfo(shortTermTracksInfo);
+        } else if (timeWindow == "medium_term") {
+            setTracksInfo(mediumTermTracksInfo);
+        } else if (timeWindow == "long_term") {
+            setTracksInfo(longTermTracksInfo);
+        }
+    }, [
+        timeWindow,
+        shortTermTracksInfo,
+        mediumTermTracksInfo,
+        longTermTracksInfo,
+    ]);
 
     return (
         <div className="top-tracks-container">
             {!token && <div>Log in to view your top tracks</div>}
+            {token && (
+                <div className="button-container">
+                    <div
+                        className={
+                            timeWindow == "short_term"
+                                ? "selected"
+                                : "unselected"
+                        }
+                    >
+                        <button onClick={() => setTimeWindow("short_term")}>
+                            4 WEEKS
+                        </button>
+                    </div>
+                    <div
+                        className={
+                            timeWindow == "medium_term"
+                                ? "selected"
+                                : "unselected"
+                        }
+                    >
+                        <button onClick={() => setTimeWindow("medium_term")}>
+                            6 MONTHS
+                        </button>
+                    </div>
+                    <div
+                        className={
+                            timeWindow == "long_term"
+                                ? "selected"
+                                : "unselected"
+                        }
+                    >
+                        <button onClick={() => setTimeWindow("long_term")}>
+                            ALL TIME
+                        </button>
+                    </div>
+                </div>
+            )}
             {token &&
                 tracksInfo.map((trackInfo) => (
                     <TrackItem
