@@ -7,6 +7,25 @@ import "./RecentlyPlayedPage.css";
 function RecentlyPlayedPage({ token }) {
     const [recentlyPlayedTracks, setRecentlyPlayedTracks] = useState([]);
 
+    function formatTimestamp(timestamp) {
+        let month = timestamp.getMonth() + 1;
+
+        console.log("month", month, timestamp);
+
+        let day = timestamp.getDate();
+        let year = timestamp.getFullYear();
+
+        let hours = timestamp.getHours();
+        let minutes = timestamp.getMinutes();
+
+        let formattedTimestamp =
+            month + "/" + day + "/" + year + ", " + hours + ":" + minutes;
+
+        // console.log("return", formattedTimestamp);
+
+        return formattedTimestamp;
+    }
+
     useEffect(() => {
         async function findRecentlyPlayed() {
             if (token) {
@@ -40,7 +59,12 @@ function RecentlyPlayedPage({ token }) {
                     recentlyPlayedTrack.push(
                         items[i].track.artists.map((obj) => obj.name)
                     );
-                    recentlyPlayedTrack.push(items[i].played_at);
+
+                    let timestamp = new Date(items[i].played_at);
+
+                    const formattedTimestamp = formatTimestamp(timestamp);
+
+                    recentlyPlayedTrack.push(formattedTimestamp);
                     recentlyPlayedTrack.push(
                         items[i].track.external_urls.spotify
                     );
@@ -52,8 +76,6 @@ function RecentlyPlayedPage({ token }) {
         }
         findRecentlyPlayed();
     }, [token]);
-
-    console.log("here", recentlyPlayedTracks);
 
     return (
         <div className="recently-played-tracks-container">

@@ -115,7 +115,7 @@ function TopTracksPage({ token }) {
                 tracksInfo.map((trackInfo) => (
                     <TrackItem
                         trackRank={trackInfo[0]}
-                        trackImage={trackInfo[1]}
+                        albumImage={trackInfo[1]}
                         trackAlbumURL={trackInfo[2]}
                         trackTitle={trackInfo[3]}
                         trackArtist={trackInfo[4]}

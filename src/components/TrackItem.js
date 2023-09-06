@@ -4,7 +4,7 @@ import spotifyIcon from "../assets/Spotify_icon.png";
 
 function TrackItem({
     trackRank,
-    trackImage,
+    albumImage,
     trackAlbumURL,
     trackTitle,
     trackArtist,
@@ -15,8 +15,8 @@ function TrackItem({
             <div className="track-rank">{trackRank}.</div>
             <a href={trackAlbumURL} target="_blank">
                 <img
-                    className="track-image"
-                    src={trackImage}
+                    className="album-image"
+                    src={albumImage}
                     href={trackAlbumURL}
                 ></img>
             </a>

@@ -13,13 +13,17 @@ function RecentlyPlayedItem({
     return (
         <div className="recently-played-container">
             <a href={recentlyPlayedAlbumURL} target="_blank">
-                <img src={recentlyPlayedImage}></img>
+                <img className="album-image" src={recentlyPlayedImage}></img>
             </a>
-            <div>{recentlyPlayedName}</div>
-            <div>{recentlyPlayedArtist}</div>
-            <div>{recentlyPlayedTimestamp}</div>
+            <div className="track-info-container">
+                <div className="track-title">{recentlyPlayedName}</div>
+                <div className="track-artist">
+                    {recentlyPlayedArtist.join(", ")}
+                </div>
+                <div className="track-timestamp">{recentlyPlayedTimestamp}</div>
+            </div>
 
-            <a href={recentlyPlayedTrackURL}>
+            <a href={recentlyPlayedTrackURL} target="_blank">
                 <img className="spotify-icon" src={spotifyIcon}></img>
             </a>
         </div>
