@@ -17,7 +17,10 @@ function App() {
             <BrowserRouter>
                 <Navbar setTokenParent={setToken}></Navbar>
                 <Routes>
-                    <Route path="/" element={<HomePage></HomePage>}></Route>
+                    <Route
+                        path="/"
+                        element={<HomePage token={token}></HomePage>}
+                    ></Route>
                     <Route
                         path="/top-tracks"
                         element={<TopTracksPage token={token}></TopTracksPage>}
@@ -39,9 +42,7 @@ function App() {
                     <Route
                         path="/recommended"
                         element={
-                            <RecommendedPage
-                                token={token}
-                            ></RecommendedPage>
+                            <RecommendedPage token={token}></RecommendedPage>
                         }
                     ></Route>
                 </Routes>
