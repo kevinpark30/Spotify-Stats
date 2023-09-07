@@ -51,7 +51,9 @@ function Navbar({ setTokenParent }) {
                 {!token ? (
                     <a href={link}>Log In</a>
                 ) : (
-                    <button onClick={logout}>Logout</button>
+                    <Link to="/" onClick={logout}>
+                        Logout
+                    </Link>
                 )}
             </div>
         </div>
