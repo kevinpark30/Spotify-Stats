@@ -4,24 +4,46 @@ import axios from "axios";
 import RecentlyPlayedItem from "../components/RecentlyPlayedItem";
 import "./RecentlyPlayedPage.css";
 
-function RecentlyPlayedPage({ token }) {
+function RecentlyPlayedPage({ token, setRecentlyPlayedParentURI }) {
     const [recentlyPlayedTracks, setRecentlyPlayedTracks] = useState([]);
 
     function formatTimestamp(timestamp) {
         let month = timestamp.getMonth() + 1;
 
-        console.log("month", month, timestamp);
+        let amOrPm = "";
 
         let day = timestamp.getDate();
         let year = timestamp.getFullYear();
 
         let hours = timestamp.getHours();
+
+        if (hours >= 12) {
+            amOrPm = "PM";
+        } else {
+            amOrPm = "AM";
+        }
+
+        hours = ((hours + 11) % 12) + 1;
+
         let minutes = timestamp.getMinutes();
 
-        let formattedTimestamp =
-            month + "/" + day + "/" + year + ", " + hours + ":" + minutes;
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
 
-        // console.log("return", formattedTimestamp);
+        let formattedTimestamp =
+            "Played at " +
+            month +
+            "/" +
+            day +
+            "/" +
+            year +
+            ", " +
+            hours +
+            ":" +
+            minutes +
+            " " +
+            amOrPm;
 
         return formattedTimestamp;
     }
@@ -41,10 +63,16 @@ function RecentlyPlayedPage({ token }) {
                         },
                     }
                 );
-                console.log(data.items);
 
                 const items = data.items;
-                const recentlyPlayedTracks = [];
+
+                setRecentlyPlayedParentURI(
+                    items.map((item) => {
+                        return item.track.artists[0].href.split("/")[5];
+                    })
+                );
+
+                console.log(data.items);
 
                 for (let i = 0; i < items.length; i++) {
                     const recentlyPlayedTrack = [];
