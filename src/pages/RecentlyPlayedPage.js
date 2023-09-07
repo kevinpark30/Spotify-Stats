@@ -4,7 +4,7 @@ import axios from "axios";
 import RecentlyPlayedItem from "../components/RecentlyPlayedItem";
 import "./RecentlyPlayedPage.css";
 
-function RecentlyPlayedPage({ token, setRecentlyPlayedParentURI }) {
+function RecentlyPlayedPage({ token }) {
     const [recentlyPlayedTracks, setRecentlyPlayedTracks] = useState([]);
 
     function formatTimestamp(timestamp) {
@@ -66,13 +66,9 @@ function RecentlyPlayedPage({ token, setRecentlyPlayedParentURI }) {
 
                 const items = data.items;
 
-                setRecentlyPlayedParentURI(
-                    items.map((item) => {
-                        return item.track.artists[0].href.split("/")[5];
-                    })
-                );
-
                 console.log(data.items);
+
+                const recentlyPlayedTracks = [];
 
                 for (let i = 0; i < items.length; i++) {
                     const recentlyPlayedTrack = [];

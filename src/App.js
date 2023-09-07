@@ -12,8 +12,6 @@ import { Routes, Route } from "react-router-dom";
 function App() {
     const [token, setToken] = useState("");
 
-    const [recentlyPlayedURI, setRecentlyPlayedURI] = useState([]);
-
     return (
         <>
             <BrowserRouter>
@@ -35,9 +33,6 @@ function App() {
                         element={
                             <RecentlyPlayedPage
                                 token={token}
-                                setRecentlyPlayedParentURI={
-                                    setRecentlyPlayedURI
-                                }
                             ></RecentlyPlayedPage>
                         }
                     ></Route>
@@ -46,7 +41,6 @@ function App() {
                         element={
                             <RecommendedPage
                                 token={token}
-                                recentlyPlayedURI={recentlyPlayedURI}
                             ></RecommendedPage>
                         }
                     ></Route>

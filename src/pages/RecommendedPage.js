@@ -4,23 +4,36 @@ import axios from "axios";
 import TrackItem from "../components/TrackItem";
 import "./RecommendedPage.css";
 
-function RecommendedPage({ token, recentlyPlayedURI }) {
+function RecommendedPage({ token }) {
     const [recommendedTracksInfo, setRecommendedTracksInfo] = useState([]);
 
     useEffect(() => {
         async function getRecommendations() {
-            if (recentlyPlayedURI.length == 0) {
-                return;
-            }
-
-            const seedsString = Array.from(new Set(recentlyPlayedURI))
-                .slice(0, 5)
-                .join(",");
-
-            console.log("seed string", seedsString);
-
             if (token) {
-                const { data } = await axios.get(
+                let recentlyPlayedResponse = await axios.get(
+                    "https://api.spotify.com/v1/me/player/recently-played",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        params: {
+                            time_range: "short_term",
+                            limit: 50,
+                        },
+                    }
+                );
+                
+                const recentlyPlayedItems = recentlyPlayedResponse.data.items;
+
+                const recentlyPlayedArtistsURI = recentlyPlayedItems.map((recentlyPlayedItem) => {
+                    return recentlyPlayedItem.track.artists[0].href.split("/")[5];
+                })
+    
+                const seedsString = Array.from(new Set(recentlyPlayedArtistsURI))
+                    .slice(0, 5)
+                    .join(",");
+
+                let recommendations = await axios.get(
                     "https://api.spotify.com/v1/recommendations",
                     {
                         headers: {
@@ -32,12 +45,9 @@ function RecommendedPage({ token, recentlyPlayedURI }) {
                         },
                     }
                 );
+                const items = recommendations.data.tracks;
 
-                console.log(data);
-                const items = data.tracks;
                 const tracksInfo = [];
-
-                console.log(data.items);
 
                 for (let i = 0; i < items.length; i++) {
                     const trackInfo = [];
@@ -53,13 +63,12 @@ function RecommendedPage({ token, recentlyPlayedURI }) {
             }
         }
         getRecommendations();
-    }, [recentlyPlayedURI]);
+    }, [token]);
 
     return (
         <div className="recommended-tracks-container">
-            {!token && <div>Log in to view your top tracks</div>}
+            {!token && <div>Log in to view your recommendations</div>}
             {token &&
-                recentlyPlayedURI.length != 0 &&
                 recommendedTracksInfo.map((recommendedTrackInfo) => (
                     <TrackItem
                         trackRank={recommendedTrackInfo[0]}
